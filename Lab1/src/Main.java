@@ -1,8 +1,9 @@
 
+import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String args[]) {
         Main lab1 = new Main();
-        //lab1.compulsory();
+        lab1.compulsory();
         lab1.homework(args);
     }
     void compulsory()
@@ -57,6 +58,7 @@ public class Main {
             return;
         }
 
+        long startTime = System.nanoTime();
         System.out.println("n: " + n);
         int[][] latinSquare = new int[n][n];
         for(int i=0; i<n; i++)
@@ -66,22 +68,28 @@ public class Main {
                 else
                     latinSquare[i][j] = (i+j+1) % n;
             }
-        System.out.println("Rows: ");
-        for(int i=0; i<n; i++)
-        {
-            StringBuilder row = new StringBuilder("");
-            for (int j=0; j<n; j++)
-                row.append(latinSquare[i][j]);
-            System.out.println("row" + i + ": " + row);
-        }
+        if(n<=30_000) {
+            System.out.println("Rows: ");
+            for (int i = 0; i < n; i++) {
+                StringBuilder row = new StringBuilder("");
+                for (int j = 0; j < n; j++)
+                    row.append(latinSquare[i][j]);
+                System.out.println("row" + i + ": " + row);
+            }
 
-        System.out.println("Columns: ");
-        for (int j=0 ; j<n; j++)
+            System.out.println("Columns: ");
+            for (int j = 0; j < n; j++) {
+                StringBuilder column = new StringBuilder("");
+                for (int i = 0; i < n; i++)
+                    column.append(latinSquare[i][j]);
+                System.out.println("column" + j + ": " + column);
+            }
+        }
+        long endTime = System.nanoTime();
+        if(n>30_000)
         {
-            StringBuilder column = new StringBuilder("");
-            for (int i=0; i<n; i++)
-                column.append(latinSquare[i][j]);
-            System.out.println("column" + j + ": " + column);
+            long runTime = endTime - startTime;
+            System.out.println("running time: " + runTime);
         }
     }
     void bonus()
