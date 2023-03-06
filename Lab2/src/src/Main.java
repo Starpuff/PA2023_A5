@@ -1,6 +1,9 @@
 import locations.*;
 import roads.*;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Main {
     public static void main(String[] args) {
         /** Locations: */
@@ -15,6 +18,7 @@ public class Main {
         Airport airport2 = new Airport("Bucuresti", 15.7f, 10.6f, 3);
         Airport airport3 = new Airport("Tokyo", 10_000, 60.8f, 3);
          */
+
 
         /** Roads: */
         Highway road1 = null;
@@ -39,12 +43,15 @@ public class Main {
         pb.addRoad(road1);
         pb.addRoad(road2);
         pb.addRoad(road1);
-        pb.setStartLocation(city3);
-        pb.setFinishLocation(city4);
-        pb.setFinishLocation(city3);
+        //pb.setStartLocation(city3);
+        //pb.setFinishLocation(city4);
+        //pb.setFinishLocation(city3);
 
         if(isInstanceValid(pb))
             System.out.println(pb);
+
+        if(isInstanceValid(pb))
+            isBReachableFromA(pb);
 
 
         /*
@@ -83,8 +90,50 @@ public class Main {
         */
     }
 
+    private static void isBReachableFromA(Problem pb) {
+        Queue<Location> queue = new LinkedList<>();
+        int visitedLocations[] = new int[pb.getIndexOfLocations()+1];
+        for (int index = 0; index <= pb.getIndexOfLocations(); index++)
+            visitedLocations[index] = 0;
+        queue.add(pb.getStartLocation());
+        visitedLocations[0] = 1;
+        while(queue.peek()!=null)
+        {
+            Location currentLocation = queue.remove();
+            if(currentLocation.equals(pb.getFinishLocation()))
+            {
+                System.out.println("The finish location is reachable from the start location.");
+                return;
+            }
+            for(int index = 0; index < pb.getIndexOfRoads(); index++)
+            {
+                Road currentRoad = pb.getRoads()[index];
+                int indexFirstEndOfRoad = pb.getIndexOfGivenLocation(pb.getFirstEndOfRoad(currentRoad));
+                int indexSecondEndOfRoad = pb.getIndexOfGivenLocation(pb.getSecondEndOfRoad(currentRoad));
+
+                if(pb.doesLocationExist(pb.getFirstEndOfRoad(currentRoad)) && pb.doesLocationExist(pb.getSecondEndOfRoad(currentRoad)))
+                {
+                    if(currentLocation.equals(pb.getFirstEndOfRoad(currentRoad)) && visitedLocations[indexSecondEndOfRoad]==0)
+                    {
+                        queue.add(pb.getSecondEndOfRoad(currentRoad));
+                        visitedLocations[indexSecondEndOfRoad] = 1;
+                    }
+                    else if(currentLocation.equals(pb.getSecondEndOfRoad(currentRoad)) && visitedLocations[indexFirstEndOfRoad]==0)
+                    {
+                        queue.add(pb.getFirstEndOfRoad(currentRoad));
+                        visitedLocations[indexFirstEndOfRoad] = 1;
+                    }
+                }
+            }
+        }
+        System.out.println("The finish location is unreachable from the start location.");
+        return;
+    }
+
     private static boolean isInstanceValid(Problem pb)
     {
+        if(pb.getStartLocation()==null || pb.getFinishLocation()==null)
+            return false;
         if(pb.getStartLocation().equals(pb.getFinishLocation()))
             return false;
         if(pb.getRoads()==null)

@@ -12,7 +12,18 @@ public class Problem {
     private int indexOfLocations = 0;
     private int indexOfRoads = 0;
 
-    private boolean doesLocationExist (Location newLocation)
+
+
+    public int getIndexOfGivenLocation (Location givenLocation)
+    {
+        for(int index=0; index<= indexOfLocations;index++)
+        {
+            if(givenLocation.equals(locations[index]))
+                return index;
+        }
+        return -1; //location not found
+    }
+    public boolean doesLocationExist (Location newLocation)
     {
         for (int index=0; index <= indexOfLocations; index++)
         {
@@ -22,7 +33,7 @@ public class Problem {
         return false;
     }
 
-    private boolean doesRoadExist (Road newRoad)
+    public boolean doesRoadExist (Road newRoad)
     {
         if(indexOfRoads!=0)
             for (int index=0; index < indexOfRoads; index++)
@@ -32,18 +43,6 @@ public class Problem {
             }
         return false;
     }
-
-    private int getIndexOfGivenLocation (Location givenLocation)
-    {
-        for(int index=0; index<= indexOfLocations;index++)
-        {
-            if(givenLocation.equals(locations[index]))
-                return index;
-        }
-        return -1; //location not found
-    }
-
-
 
     // getters:
     public Location getStartLocation()
@@ -61,6 +60,22 @@ public class Problem {
     public Road[] getRoads()
     {
         return roads;
+    }
+    public int getMAX_LOCATIONS ()
+    {
+        return this.MAX_LOCATIONS;
+    }
+    public int getMAX_ROADS()
+    {
+        return this.MAX_ROADS;
+    }
+    public int getIndexOfLocations()
+    {
+        return this.indexOfLocations;
+    }
+    public int getIndexOfRoads()
+    {
+        return this.indexOfRoads;
     }
 
     //setters:
@@ -127,6 +142,14 @@ public class Problem {
         }
     }
 
+    public Location getFirstEndOfRoad(Road road)
+    {
+        return road.getFirstLocation();
+    }
+    public Location getSecondEndOfRoad(Road road)
+    {
+        return road.getSecondLocation();
+    }
 
     public Problem(Location startLocation, Location finishLocation)
     {
@@ -164,22 +187,25 @@ public class Problem {
     public String toString ()
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("\n\nProblem's instance: ");
+        builder.append("\n\nProblem's instance: \n");
         for (int index =0; index<=indexOfLocations; index++)
         {
             if(index==0) {
                 builder.append("start location: ");
                 builder.append(startLocation);
+                builder.append("\n");
             }
             else if(index==1) {
                 builder.append("\nfinish location: ");
                 builder.append(finishLocation);
+                builder.append("\n");
             }
             else {
                 builder.append("\nlocation ");
                 builder.append(index+1);
                 builder.append(": ");
                 builder.append(locations[index]);
+                builder.append("\n");
             }
         }
         for(int index=0; index<indexOfRoads; index++)
@@ -188,6 +214,7 @@ public class Problem {
             builder.append(index+1);
             builder.append(": ");
             builder.append(roads[index]);
+            builder.append("\n");
         }
         return builder.toString();
     }
