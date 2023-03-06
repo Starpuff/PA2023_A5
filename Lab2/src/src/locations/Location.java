@@ -1,14 +1,14 @@
-public class Location {
-    private String name;
-    private LocationType type;
-    private float xCoordinate;
-    private float yCoordinate;
+package locations;
+
+public abstract class Location {
+    protected String name;
+    protected float xCoordinate;
+    protected float yCoordinate;
 
     //constructor
-    public Location(String name, LocationType type, float xCoordinate, float yCoordinate)
+    public Location(String name, float xCoordinate, float yCoordinate)
     {
         this.name = name;
-        this.type = type;
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
     }
@@ -17,10 +17,6 @@ public class Location {
     public String getName()
     {
         return name;
-    }
-    public LocationType getType()
-    {
-        return type;
     }
     public float getXCoordinate()
     {
@@ -36,10 +32,6 @@ public class Location {
     {
         this.name = name;
     }
-    public void setType(LocationType type)
-    {
-        this.type = type;
-    }
     public void setXCoordinate(float xCoordinate)
     {
         this.xCoordinate = xCoordinate;
@@ -49,10 +41,18 @@ public class Location {
         this.yCoordinate = yCoordinate;
     }
 
-    //toString override:
+    //overrides:
     @Override
     public String toString()
     {
-        return "Location: \nname: " + name + "\ntype: " + type + "\nx coordinate: " + xCoordinate + "\ny coordinate: " + yCoordinate;
+        return "locations.Location: \nname: " + name + "\nx coordinate: " + xCoordinate + "\ny coordinate: " + yCoordinate;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || !(obj instanceof Location)) return false;
+        Location loc = (Location) obj;
+        return loc.xCoordinate == xCoordinate && loc.yCoordinate == yCoordinate && name == loc.name;
     }
 }

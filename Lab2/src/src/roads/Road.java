@@ -1,20 +1,22 @@
+package roads;
+
+import locations.Location;
+
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class Road {
-    private String name;
-    private RoadType type;
-    private float length;
-    private int speedLimit;
-    private Location firstLocation;
-    private Location secondLocation;
+public abstract class Road {
+    protected String name;
+    protected float length;
+    protected int speedLimit;
+    protected Location firstLocation;
+    protected Location secondLocation;
 
     //constructor:
-    public Road(String name, RoadType type, float length, int speedLimit, Location firstLocation, Location secondLocation) throws Exception
+    public Road(String name, float length, int speedLimit, Location firstLocation, Location secondLocation) throws Exception
     {
 
         this.name = name;
-        this.type = type;
         this.speedLimit = speedLimit;
         this.firstLocation = firstLocation;
         this.secondLocation = secondLocation;
@@ -32,10 +34,6 @@ public class Road {
     public String getName()
     {
         return name;
-    }
-    public RoadType getType()
-    {
-        return type;
     }
     public float getLength()
     {
@@ -58,10 +56,6 @@ public class Road {
     public void setName(String name)
     {
         this.name = name;
-    }
-    public void setType(RoadType type)
-    {
-        this.type = type;
     }
     public void setLength(float length) throws Exception
     {
@@ -90,6 +84,16 @@ public class Road {
     @Override
     public String toString()
     {
-        return "Road: \nname: " + name + "\ntype: " + type + "\nlength: " + length + "\nspeed limit: " + speedLimit;
+        return "roads.Road: \nname: " + name + "\nlength: " + length + "\nspeed limit: " + speedLimit;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Road)) {
+            return false;
+        }
+        Road road = (Road) obj;
+        return this.name.equals(road.name) && this.length == road.length ;
+    }
+
 }
