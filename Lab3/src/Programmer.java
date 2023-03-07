@@ -1,5 +1,7 @@
+import java.util.Date;
+
 public class Programmer extends Person{
-    public Programmer(String name) {
-        super(name);
+    public Programmer(String name, Date birthDate) {
+        super(name, birthDate);
     }
 }
