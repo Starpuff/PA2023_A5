@@ -1,8 +1,10 @@
 public class Company implements Node, Comparable<Company> {
     private String name;
+    private int numberOfPlants;
 
-    public Company(String name) {
+    public Company(String name, int numberOfPlants) {
         this.name = name;
+        this.numberOfPlants = numberOfPlants;
     }
     public String getName() {
         return name;
